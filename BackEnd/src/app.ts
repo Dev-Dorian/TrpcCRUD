@@ -18,4 +18,6 @@ app.use("/trpc", trpcExpress.createExpressMiddleware({
     createContext
 }))
 
+export type AppRouter = typeof appRouter
+
 export default app
