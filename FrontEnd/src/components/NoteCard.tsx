@@ -13,6 +13,7 @@ interface Props {
 
 function NoteCard({ note }: Props) {
     const deleteNote = trpc.note.delete.useMutation();
+    const toggleDoneNote = trpc.note.toggleDone.useMutation();
     const utils = trpc.useContext();
 
     return (
@@ -32,7 +33,15 @@ function NoteCard({ note }: Props) {
                     }
                 })
             }}>Delete</button>
-            <button>{note.done ? "Undone" : "Done"}</button>
+            <button onClick={async () => {
+                await toggleDoneNote.mutate(note._id, {
+                    onSuccess(data) {
+                        if (data) {
+                            utils.note.get.invalidate();
+                        }
+                    },
+                })
+            }}>{note.done ? "Undone" : "Done"}</button>
         </div>
     )
 }

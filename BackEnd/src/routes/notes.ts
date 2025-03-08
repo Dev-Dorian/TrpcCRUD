@@ -23,14 +23,28 @@ const createNotes = publicProcedure.input(z.object({
 })
 
 const deleteNote = publicProcedure.input(z.string()).mutation(async ({ input }) => {
-    throw new Error("Error custom!!!")
+    //throw new Error("Error custom!!!")
     const noteFound = await Note.findByIdAndDelete(input)
     if (!noteFound) throw new Error("Note Not Found")
     return true
 })
 
+const toggleDone = publicProcedure.input(z.string()).mutation(async ({ input }) => {
+    try {
+        const foundNote = await Note.findById(input)
+        if (!foundNote) throw new Error('Note Not Found')
+        foundNote.done = !foundNote.done
+        await foundNote.save()
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+})
+
 export const notesRouter = router({
     create: createNotes,
     get: getNotes,
-    delete: deleteNote
+    delete: deleteNote,
+    toggleDone,
 }) 
