@@ -1,12 +1,13 @@
-import React, { ChangeEvent, FormEvent, useContext, useState } from 'react'
-import { trpc } from '../trpc'
+import React, { ChangeEvent, FormEvent, useContext, useState } from "react"
+import { trpc } from "../trpc"
 
+const initialState = {
+    title: "",
+    description: ""
+}
 
 function NoteForm() {
-    const [note, setNote] = useState({
-        title: "",
-        description: ""
-    })
+    const [note, setNote] = useState(initialState)
 
     const addNote = trpc.note.create.useMutation()
     const utils = trpc.useContext()
@@ -17,6 +18,7 @@ function NoteForm() {
             onSuccess: () => {
                 console.log("Note added successfully")
                 utils.note.get.invalidate()
+                setNote(initialState)
             }
         })
         console.log(note)
@@ -28,10 +30,10 @@ function NoteForm() {
         console.log(e)
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" placeholder='Title' name='title' autoFocus onChange={handleChange} />
-            <textarea name="description" placeholder="Description" onChange={handleChange}></textarea>
-            <button>Send</button>
+        <form className="bg-zinc-900 p-10 rounded-md" onSubmit={handleSubmit}>
+            <input className="bg-neutral-800 px-3 py-2 w-full block rounded-md mb-3 text-5xl" type="text" placeholder="Title" value={note.title} name="title" autoFocus onChange={handleChange} />
+            <textarea className="bg-neutral-800 px-3 py-2 w-full block rounded-md mb-3" name="description" placeholder="Description" value={note.description} onChange={handleChange}></textarea>
+            <button className="bg-zinc-500 px-3 py-2 rounded-md text-white">Send</button>
         </form>
     )
 }
