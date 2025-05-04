@@ -31,7 +31,7 @@ function NoteForm() {
     }
     return (
         <form className="bg-zinc-900 p-10 rounded-md" onSubmit={handleSubmit}>
-            <input className="bg-neutral-800 px-3 py-2 w-full block rounded-md mb-3 text-5xl" type="text" placeholder="Title" value={note.title} name="title" autoFocus onChange={handleChange} />
+            <input className="bg-neutral-800 px-3 py-2 w-full block rounded-md mb-3" type="text" placeholder="Title" value={note.title} name="title" autoFocus onChange={handleChange} />
             <textarea className="bg-neutral-800 px-3 py-2 w-full block rounded-md mb-3" name="description" placeholder="Description" value={note.description} onChange={handleChange}></textarea>
             <button className="bg-zinc-500 px-3 py-2 rounded-md text-white">Send</button>
         </form>
